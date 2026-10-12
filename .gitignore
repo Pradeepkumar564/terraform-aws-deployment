@@ -15,3 +15,5 @@ override.tf.json
 *.pem
 
 tfplan
+
+github-oidc-trust-policy.json
