@@ -1,7 +1,6 @@
 
-#checkov:skip=CKV_AWS_260:Public HTTP is intentional for the learning website.
-#checkov:skip=CKV_AWS_382:Outbound access is needed for package installation; unrestricted egress is a documented lab trade-off.
-
+#checkov:skip=CKV_AWS_260:Public HTTP is intentional for the demo website.
+#checkov:skip=CKV_AWS_382:Unrestricted outbound access is retained for package installation in this lab.
 resource "aws_security_group" "web" {
   name        = "${var.environment}-web-sg"
   description = "Allow HTTP and optional SSH"
@@ -61,7 +60,7 @@ resource "aws_iam_instance_profile" "ec2" {
 }
 
 
-#checkov:skip=CKV_AWS_88:Public IP is intentional for direct website access in this lab.
+#checkov:skip=CKV_AWS_88:Public IP is intentional for direct HTTP access in this lab.
 #checkov:skip=CKV_AWS_126:Detailed monitoring is omitted to avoid additional charges.
 resource "aws_instance" "web" {
   ami           = var.ami_id

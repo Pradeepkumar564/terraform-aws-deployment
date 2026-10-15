@@ -1,8 +1,7 @@
-
-#checkov:skip=CKV2_AWS_62:Event notifications are not needed for the current lab use.
-#checkov:skip=CKV_AWS_18:Access logging is omitted to avoid additional storage and logging costs.
-#checkov:skip=CKV_AWS_144:Cross-region replication is omitted to avoid additional resource and storage costs.
-#checkov:skip=CKV_AWS_145:SSE-S3 encryption is used to avoid a separately managed KMS key for this lab.
+#checkov:skip=CKV2_AWS_62:Event notifications are not required for the current lab use.
+#checkov:skip=CKV_AWS_18:Access logging is omitted to avoid additional storage costs.
+#checkov:skip=CKV_AWS_144:Cross-region replication is omitted to avoid additional resource costs.
+#checkov:skip=CKV_AWS_145:SSE-S3 encryption is retained to avoid a separately managed KMS key.
 resource "aws_s3_bucket" "app" {
   bucket_prefix = "guvi-project03-app-"
 
@@ -39,6 +38,7 @@ resource "aws_s3_bucket_public_access_block" "app" {
   restrict_public_buckets = true
 }
 
+
 resource "aws_s3_bucket_lifecycle_configuration" "app" {
   bucket = aws_s3_bucket.app.id
 
@@ -52,4 +52,16 @@ resource "aws_s3_bucket_lifecycle_configuration" "app" {
       noncurrent_days = 30
     }
   }
+
+  rule {
+    id     = "abort-incomplete-multipart-uploads"
+    status = "Enabled"
+
+    filter {}
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
 }
+
