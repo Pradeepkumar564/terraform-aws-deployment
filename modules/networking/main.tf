@@ -1,4 +1,4 @@
-
+#checkov:skip=CKV2_AWS_11:VPC Flow Logs are omitted to avoid potential logging charges in this zero-budget lab.
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -19,6 +19,11 @@ resource "aws_internet_gateway" "main" {
 
 data "aws_availability_zones" "available" {
   state = "available"
+
+  filter {
+    name   = "zone-name"
+    values = ["ap-south-1a", "ap-south-1b"]
+  }
 }
 
 resource "aws_subnet" "public" {
@@ -26,7 +31,7 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet_cidrs[count.index]
   availability_zone       = data.aws_availability_zones.available.names[count.index]
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
 
   tags = {
     Name = "${var.environment}-public-${count.index + 1}"
@@ -50,4 +55,11 @@ resource "aws_route_table_association" "public" {
   count          = length(aws_subnet.public)
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
+}
+
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.main.id
+
+  ingress = []
+  egress  = []
 }

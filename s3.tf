@@ -1,4 +1,8 @@
 
+#checkov:skip=CKV2_AWS_62:Event notifications are not needed for the current lab use.
+#checkov:skip=CKV_AWS_18:Access logging is omitted to avoid additional storage and logging costs.
+#checkov:skip=CKV_AWS_144:Cross-region replication is omitted to avoid additional resource and storage costs.
+#checkov:skip=CKV_AWS_145:SSE-S3 encryption is used to avoid a separately managed KMS key for this lab.
 resource "aws_s3_bucket" "app" {
   bucket_prefix = "guvi-project03-app-"
 
@@ -33,4 +37,19 @@ resource "aws_s3_bucket_public_access_block" "app" {
   ignore_public_acls      = true
   block_public_policy     = true
   restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "app" {
+  bucket = aws_s3_bucket.app.id
+
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
 }
