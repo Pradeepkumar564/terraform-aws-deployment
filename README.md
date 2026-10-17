@@ -118,11 +118,11 @@ The workflow is intentionally \*\*plan-only\*\*. It does not execute `terraform 
 
 \- `terraform plan` — Passed
 
-\- Planned changes — 16 resources to add, 0 to change, 0 to destroy
+\- Planned changes — 18 resources to add, 0 to change, 0 to destroy
 
 
 
-The plan represents proposed changes only; it is not evidence that the resources were deployed.
+The Terraform plan represents proposed changes only. No infrastructure has been deployed using terraform apply.
 
 
 
