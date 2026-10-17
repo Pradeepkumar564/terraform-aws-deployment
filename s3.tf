@@ -1,7 +1,7 @@
-#checkov:skip=CKV2_AWS_62:Event notifications are not required for the current lab use.
+#checkov:skip=CKV2_AWS_62:Event notifications are not required for this project.
 #checkov:skip=CKV_AWS_18:Access logging is omitted to avoid additional storage costs.
 #checkov:skip=CKV_AWS_144:Cross-region replication is omitted to avoid additional resource costs.
-#checkov:skip=CKV_AWS_145:SSE-S3 encryption is retained to avoid a separately managed KMS key.
+#checkov:skip=CKV_AWS_145:SSE-S3 encryption is used to avoid requiring a separately managed KMS key.
 resource "aws_s3_bucket" "app" {
   bucket_prefix = "guvi-project03-app-"
 

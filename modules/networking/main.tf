@@ -1,4 +1,4 @@
-#checkov:skip=CKV2_AWS_11:VPC Flow Logs are omitted to avoid potential logging charges in this lab.
+#checkov:skip=CKV2_AWS_11:VPC Flow Logs are omitted to avoid potential logging charges.
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
