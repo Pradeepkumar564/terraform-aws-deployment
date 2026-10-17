@@ -45,7 +45,7 @@ jobs:
         run: python3 -m pip install checkov
 
       - name: Scan Terraform configuration
-        run: checkov -d . --framework terraform --soft-fail
+        run: checkov -d . --framework terraform --soft-fail --config-file .checkov.yml
 
       - name: Create Terraform plan only
         run: terraform plan -out=tfplan
